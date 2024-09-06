@@ -9,7 +9,6 @@ namespace hkn {
     struct PipelineConfigInfo {
         VkViewport viewport;
         VkRect2D scissor;
-        VkPipelineViewportStateCreateInfo viewportInfo;
         VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
         VkPipelineRasterizationStateCreateInfo rasterizationInfo;
         VkPipelineMultisampleStateCreateInfo multisampleInfo;
@@ -31,6 +30,7 @@ namespace hkn {
             HknPipeline(const HknPipeline&) = delete;
             void operator=(const HknPipeline&) = delete;
 
+            void bind(VkCommandBuffer commandBuffer);
             static PipelineConfigInfo defaultPipelineConfigInfo(u_int32_t width, u_int32_t height);
 
 

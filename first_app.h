@@ -3,6 +3,10 @@
 #include "hkn_window.h"
 #include "hkn_pipeline.h"
 #include "hkn_engine_device.h"
+#include "hkn_swap_chain.h"
+
+#include <memory>
+#include <vector>
 
 namespace hkn {
     class FirstApp {
@@ -10,15 +14,26 @@ namespace hkn {
             static constexpr int WIDTH = 800;
             static constexpr int HEIGHT = 600;
 
+            FirstApp();
+            ~FirstApp();
+
+            FirstApp(const FirstApp &) = delete;
+            void operator=(const FirstApp &) = delete;
+
             void run();
 
         private:
+            void createPipelineLayout();
+            void createPipeline();
+            void createCommandBuffers();
+            void drawFrame();
+
             HknWindow hknWindow{WIDTH, HEIGHT, "HKN GAME ENGINE"};
             HknEngineDevice hknDevice{hknWindow};
-            HknPipeline hknPipeline{
-                hknDevice,
-                "shaders/simple_shader.vert.spv", 
-                "shaders/simple_shader.frag.spv", 
-                HknPipeline::defaultPipelineConfigInfo(WIDTH, HEIGHT)};
+            HknSwapChain hknSwapChain{hknDevice, hknWindow.getExtend()};
+            std::unique_ptr<HknPipeline> hknPipeline;
+            VkPipelineLayout pipelineLayout;
+            std::vector<VkCommandBuffer> commandBuffers;
+           
     };
 }
