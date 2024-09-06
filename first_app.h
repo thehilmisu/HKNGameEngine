@@ -1,6 +1,8 @@
 #pragma once 
 
 #include "hkn_window.h"
+#include "hkn_pipeline.h"
+#include "hkn_engine_device.h"
 
 namespace hkn {
     class FirstApp {
@@ -12,5 +14,11 @@ namespace hkn {
 
         private:
             HknWindow hknWindow{WIDTH, HEIGHT, "HKN GAME ENGINE"};
+            HknEngineDevice hknDevice{hknWindow};
+            HknPipeline hknPipeline{
+                hknDevice,
+                "shaders/simple_shader.vert.spv", 
+                "shaders/simple_shader.frag.spv", 
+                HknPipeline::defaultPipelineConfigInfo(WIDTH, HEIGHT)};
     };
 }
