@@ -5,6 +5,7 @@
 
 namespace hkn {
     FirstApp::FirstApp() {
+        loadModels();
         createPipelineLayout();
         createPipeline();
         createCommandBuffers();
@@ -19,6 +20,16 @@ namespace hkn {
         }
 
         vkDeviceWaitIdle(hknDevice.device());
+    }
+
+    void FirstApp::loadModels() {
+        std::vector<HknModel::Vertex> vertices {
+            {{0.0f, -0.5f}},
+            {{0.5f, 0.5f}},
+            {{-0.5f, 0.5f}}
+        };
+
+        hknModel = std::make_unique<HknModel>(hknDevice, vertices); 
     }
 
     void FirstApp::createPipelineLayout() {
@@ -90,7 +101,9 @@ namespace hkn {
             vkCmdBeginRenderPass(commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
             hknPipeline->bind(commandBuffers[i]);
-            vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
+            //vkCmdDraw(commandBuffers[i], 3, 1, 0, 0);
+            hknModel->bind(commandBuffers[i]);
+            hknModel->draw(commandBuffers[i]);
 
             vkCmdEndRenderPass(commandBuffers[i]);
             if(vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS){

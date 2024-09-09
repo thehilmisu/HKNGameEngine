@@ -4,6 +4,7 @@
 #include "hkn_pipeline.h"
 #include "hkn_engine_device.h"
 #include "hkn_swap_chain.h"
+#include "hkn_model.h"
 
 #include <memory>
 #include <vector>
@@ -23,6 +24,7 @@ namespace hkn {
             void run();
 
         private:
+            void loadModels();
             void createPipelineLayout();
             void createPipeline();
             void createCommandBuffers();
@@ -34,6 +36,7 @@ namespace hkn {
             std::unique_ptr<HknPipeline> hknPipeline;
             VkPipelineLayout pipelineLayout;
             std::vector<VkCommandBuffer> commandBuffers;
+            std::unique_ptr<HknModel> hknModel;
            
     };
 }
